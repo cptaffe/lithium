@@ -1,10 +1,10 @@
 
 CC=clang
-CFLAGS=`pkg-config --cflags --libs gtk+-2.0`
+CFLAGS=`pkg-config --cflags --libs gtk+-3.0`
 
-OBJ=main.o
-HDR=gui.h
-BIN=lithium
+OBJ = main.o gui.o
+HDR = gui.h
+BIN = lithium
 
 $(BIN): $(OBJ)
 	$(CC) $(CFLAGS) -o $(BIN) $(OBJ)
