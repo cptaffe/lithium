@@ -69,32 +69,10 @@ GtkWidget *gui_textbox_tb_init() {
 	gtk_widget_override_font(view, font);
 	pango_font_description_free (font);
 
-	GdkRGBA color;
-	gdk_rgba_parse (&color, editor_color);
-	gtk_widget_override_background_color(GTK_WIDGET(view), GTK_STATE_FLAG_NORMAL, &color);
-
-	gdk_rgba_parse (&color, "white");
-	gtk_widget_override_color(GTK_WIDGET(view), GTK_STATE_FLAG_NORMAL, &color);
-
 	return view;
 }
 
 GtkWidget *gui_textbox_init() {
-
-	GtkWidget *notebook = gtk_notebook_new();
-
-	gtk_notebook_set_scrollable(GTK_NOTEBOOK(notebook), TRUE); // scroll through tabs
-	gtk_notebook_set_show_border(GTK_NOTEBOOK(notebook), FALSE);
-
-	GtkWidget *tab_label = gtk_label_new("Unknown"); // tabl label
-
-	GdkRGBA color;
-	gdk_rgba_parse (&color, editor_color);
-	gtk_widget_override_background_color(GTK_WIDGET(notebook), GTK_STATE_FLAG_NORMAL, &color);
-
-	gdk_rgba_parse (&color, "white");
-	gtk_widget_override_color(GTK_WIDGET(notebook), GTK_STATE_FLAG_NORMAL, &color);
-	gtk_widget_override_color(GTK_WIDGET(tab_label), GTK_STATE_FLAG_NORMAL, &color);
 
 	GtkWidget *view = gui_textbox_tb_init();
 
@@ -105,7 +83,30 @@ GtkWidget *gui_textbox_init() {
 
 	gtk_container_add(GTK_CONTAINER(scrolledwindow), view);
 
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), scrolledwindow, tab_label);
+	return scrolledwindow;
+}
+
+GtkWidget *gui_label_init(char *name) {
+	GtkWidget *tab_label = gtk_label_new(name); // tabl label
+
+	return tab_label;
+}
+
+GtkWidget *gui_notebook_tb_init() {
+	GtkWidget *notebook = gtk_notebook_new();
+
+	gtk_notebook_set_scrollable(GTK_NOTEBOOK(notebook), TRUE); // scroll through tabs
+	gtk_notebook_set_show_border(GTK_NOTEBOOK(notebook), FALSE);
+	// gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), FALSE);
+
+	for (int i = 0; i < 20; i++) {
+		GtkWidget *sw = gui_textbox_init();
+		char str[100];
+
+		sprintf(&str[0], "%d", i);
+
+		gtk_notebook_append_page(GTK_NOTEBOOK(notebook), sw, gui_label_init(str));
+	}
 
 	return notebook;
 }
@@ -132,17 +133,43 @@ GtkWidget *gui_menubar_init() {
 	return vbox;
 }
 
+
+// Loads icon files and adds them as bultin icons
+void gui_load_icon(char *path, char *name) {
+	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(path, NULL);
+	int width, height;
+	gdk_pixbuf_get_file_info (path, &width, &height);
+	gtk_icon_theme_add_builtin_icon (name, width, pixbuf);
+	g_object_unref (G_OBJECT (pixbuf));
+}
+
+// Loads custom styling for ui elements (CSS)
+void gui_load_css_style(char *path) {
+	GtkCssProvider *provider = gtk_css_provider_new ();
+	GdkDisplay *display = gdk_display_get_default ();
+	GdkScreen *screen = gdk_display_get_default_screen (display);
+
+	gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+	GFile* css_file = g_file_new_for_path(path);
+	gtk_css_provider_load_from_file(GTK_CSS_PROVIDER(provider), css_file, NULL);
+	g_object_unref (provider);
+}
+
 GtkWidget *gui_basebar_init() {
 	return NULL;
 }
 
 void gui_init() {
+
+	gui_load_css_style("style/lithium.css");
+
 	GtkWidget *w = gui_window_init();
 
 	// box for vertical packing
 	GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-	GtkWidget *tb = gui_textbox_init();
+	GtkWidget *tb = gui_notebook_tb_init();
 	GtkWidget *mb = gui_menubar_init();
 
 	// append to box
@@ -151,11 +178,6 @@ void gui_init() {
 
 	// append box to window
 	gtk_container_add (GTK_CONTAINER(w), box);
-
-	// set window color (useless if there is no window visible)
-	GdkRGBA color;
-	gdk_rgba_parse (&color, "#1f1f1f");
-	gtk_widget_override_background_color(GTK_WIDGET(w), GTK_STATE_FLAG_NORMAL, &color);
 
 	// display button & window
 	gtk_widget_show_all(w);

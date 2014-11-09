@@ -1,0 +1,26 @@
+@define-color lithium-background #1f1f1f;
+
+GtkWindow {
+	background-color: @lithium-background; /* dark grey */
+}
+
+/* tab color */
+GtkNotebook {
+	border: none;
+	background-color: @lithium-background;
+}
+
+/* tab text */
+GtkNotebook > GtkLabel {
+	color: white;
+}
+
+GtkTextView {
+	color: white;
+	background-color: @lithium-background;
+}
+
+GtkTextView:selected {
+  background-color: @selected_bg_color;
+  color: @selected_fg_color;
+}
