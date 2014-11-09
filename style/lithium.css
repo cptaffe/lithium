@@ -1,26 +1,32 @@
 @define-color lithium-background #1f1f1f;
+@define-color lithium-foreground lightgrey;
+@define-color lithium-background-monkai #282828;
 
 GtkWindow {
 	background-color: @lithium-background; /* dark grey */
 }
 
 /* tab color */
-GtkNotebook {
+#lithium_nb {
 	border: none;
-	background-color: @lithium-background;
+	background-color: rgba(0, 0, 0, 0);
+}
+
+#lithium_nb tab {
+	background-image: url("../res/rtab.png");
 }
 
 /* tab text */
-GtkNotebook > GtkLabel {
-	color: white;
+#lithium_nb > GtkLabel {
+	color: grey;
 }
 
-GtkTextView {
-	color: white;
-	background-color: @lithium-background;
+#lithium_nb GtkTextView {
+	color: @lithium-foreground;
+	background-color: @lithium-background-monkai;
+	font: Ariel 8;
 }
 
-GtkTextView:selected {
-  background-color: @selected_bg_color;
-  color: @selected_fg_color;
+#lithium_nb GtkTextView:selected {
+	background-color: shade(@lithium-background-monkai, 1.5);
 }

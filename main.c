@@ -2,6 +2,9 @@
 #include "gui.h"
 
 int main() {
-	lithium_gui_init();
-	lithium_gui_finalize();
+	pthread_t ui_worker = lithium_ui();
+
+	// other code can run on this thread.
+
+	pthread_join(ui_worker, NULL);
 }
