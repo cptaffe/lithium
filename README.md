@@ -1,4 +1,4 @@
 lithium
 =======
 
-My attempt at a gtk text editor in C.
+Lithium is a text editor written with gtkmm in C++.
