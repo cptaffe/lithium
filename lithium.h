@@ -6,6 +6,7 @@
 #include <gtkmm/window.h>
 #include <gtkmm/cssprovider.h>
 #include <gtkmm/textview.h>
+#include <gtkmm/treeview.h>
 
 namespace lith {
 	namespace ui {
@@ -21,6 +22,13 @@ namespace lith {
 
 		// namespace for editor specific classes.
 		namespace editor {
+
+			// inherits from treeview
+			class treeView : public Gtk::TreeView {
+			public:
+				treeView();
+				virtual ~treeView();
+			};
 
 			// inherits from textview
 			class textView : public Gtk::TextView {
@@ -40,6 +48,7 @@ namespace lith {
 
 				// editor view
 				textView *editor;
+				treeView *fview;
 			};
 		}
 	}

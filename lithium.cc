@@ -39,6 +39,7 @@ namespace lith {
 
 				// vertical packing box
 				auto *vbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL, 0));
+				add(*vbox);
 
 				// menu bar
 				auto*menubar = Gtk::manage(new Gtk::MenuBar());
@@ -53,14 +54,17 @@ namespace lith {
 				menuitem_quit->signal_activate().connect(sigc::mem_fun(*this, &window::on_quit_click));
 				filemenu->append(*menuitem_quit);
 
+				// vertical packing box
+				auto *hbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL, 0));
+				vbox->pack_end(*hbox, Gtk::PACK_EXPAND_WIDGET, 0);
+
 				// keeps track of editor
 				auto *editor_scroll = Gtk::manage(new Gtk::ScrolledWindow());
 				editor = Gtk::manage(new textView());
 				editor->set_name("editor_pane");
 				editor_scroll->add(*editor);
-				vbox->pack_end(*editor_scroll, Gtk::PACK_EXPAND_WIDGET, 0);
+				hbox->pack_start(*editor_scroll, Gtk::PACK_EXPAND_WIDGET, 0);
 
-				add(*vbox);
 				show_all();
 			}
 
@@ -88,6 +92,19 @@ namespace lith {
 			}
 
 			textView::~textView() {}
+
+		}
+	}
+}
+
+// editor file tree view
+namespace lith {
+	namespace ui {
+		namespace editor {
+
+			treeView::treeView() {}
+
+			treeView::~treeView() {}
 
 		}
 	}

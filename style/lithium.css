@@ -37,3 +37,20 @@ GtkWindow {
 #editor_pane:selected {
 	background-color: shade(@lithium-background-monkai, 1.5);
 }
+
+/* experimental scrollbar styling */
+
+.slider.vertical {
+	background-color: @lithium-foreground;
+	border-radius: 5px;
+}
+
+/* mouse hover */
+.slider.vertical:hover {}
+
+/* when clicked */
+.slider.vertical:active {}
+
+.trough {
+	background-color: rgba(0,0,0,0);
+}
