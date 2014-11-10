@@ -1,12 +1,12 @@
 
 // graphical interface function header
 
-#ifndef LITHIUM_GUI_H_
-#define LITHIUM_GUI_H_
+#ifndef LITHIUM_UI_H_
+#define LITHIUM_UI_H_
 
 #include <pthread.h>
 
 // returns ui worker thread
-pthread_t lithium_ui();
+pthread_t lithium();
 
-#endif // LITHIUM_GUI_H_
+#endif // LITHIUM_UI_H_

@@ -10,10 +10,17 @@ GtkWindow {
 #lithium_nb {
 	border: none;
 	background-color: rgba(0, 0, 0, 0);
+	margin-top: 5px;
 }
 
 #lithium_nb tab {
-	background-image: url("../res/rtab.png");
+	/* background-image: url("../res/rtab.png"); */
+	background-color: shade(@lithium-background, 1.2);
+	border-radius: 5px;
+}
+
+#lithium_nb tab:active {
+	background-color: shade(@lithium-background, 1.7);
 }
 
 /* tab text */
