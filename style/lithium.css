@@ -1,0 +1,39 @@
+@define-color lithium-background #1f1f1f;
+@define-color lithium-foreground lightgrey;
+@define-color lithium-background-monkai #282828;
+
+GtkWindow {
+	background-color: @lithium-background; /* dark grey */
+}
+
+/* tab color */
+#lithium_nb {
+	border: none;
+	background-color: rgba(0, 0, 0, 0);
+	margin-top: 5px;
+}
+
+#lithium_nb tab {
+	/* background-image: url("../res/rtab.png"); */
+	background-color: shade(@lithium-background, 1.2);
+	border-radius: 5px;
+}
+
+#lithium_nb tab:active {
+	background-color: shade(@lithium-background, 1.7);
+}
+
+/* tab text */
+#lithium_nb > GtkLabel {
+	color: grey;
+}
+
+#editor_pane {
+	color: @lithium-foreground;
+	background-color: @lithium-background-monkai;
+	font: Ariel 8;
+}
+
+#editor_pane:selected {
+	background-color: shade(@lithium-background-monkai, 1.5);
+}

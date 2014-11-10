@@ -4,22 +4,44 @@
 
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
+#include <gtkmm/cssprovider.h>
+#include <gtkmm/textview.h>
 
 namespace lith {
 	namespace ui {
+
 		class window : public Gtk::Window {
-
 		public:
-			window(std::basic_string<char>);
+			window();
 			virtual ~window();
-			
+			void load_style(std::basic_string<char>);
 		protected:
-			//Signal handlers:
-			void on_button_clicked();
-
-			//Member widgets:
-			Gtk::Button m_button;
+			Glib::RefPtr<Gtk::CssProvider> css; // css styling
 		};
+
+		// namespace for editor specific classes.
+		namespace editor {
+
+			// inherits from textview
+			class textView : public Gtk::TextView {
+			public:
+				textView();
+				virtual ~textView();
+			};
+
+			class window : public lith::ui::window {
+			public:
+				window(std::basic_string<char>);
+				virtual ~window();
+			protected:
+				// Signal handlers
+				void on_button_click();
+				void on_quit_click();
+
+				// editor view
+				textView *editor;
+			};
+		}
 	}
 }
 
