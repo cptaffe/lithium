@@ -76,7 +76,7 @@ namespace lith {
 			class commandPalette : public Gtk::Box {
 			public:
 				commandPalette();
-				void register_func(std::basic_string<char> str, sigc::slot<void, std::basic_string<char>> func);
+				void connect(std::basic_string<char> str, sigc::slot<void, std::basic_string<char>> func);
 				void get_input();
 				virtual ~commandPalette();
 			protected:

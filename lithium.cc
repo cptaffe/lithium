@@ -255,7 +255,7 @@ namespace lith {
 			commandPalette::~commandPalette() {}
 
 			// registers a function for calling when a string (command) is entered
-			void commandPalette::register_func(std::basic_string<char> str, sigc::slot<void, std::basic_string<char>> func) {
+			void commandPalette::connect(std::basic_string<char> str, sigc::slot<void, std::basic_string<char>> func) {
 				auto *fun = new command_func;
 				fun->str = str;
 				fun->func = func;
