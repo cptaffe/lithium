@@ -6,6 +6,10 @@ GtkWindow {
 	background-color: @lithium-background; /* dark grey */
 }
 
+* {
+	-GtkRange-slider-width: 7px;
+}
+
 /* tab color */
 #lithium_nb {
 	border: none;
@@ -38,11 +42,23 @@ GtkWindow {
 	background-color: shade(@lithium-background-monkai, 1.5);
 }
 
-/* experimental scrollbar styling */
+/* command entering box */
 
+#command {
+	font: Ariel 10;
+	background-color: @lithium-background;
+	color: @lithium-foreground;
+	border-width: 5px;
+	border-color: shade(@lithium-background, 1.2);
+	border-radius: 0px;
+	padding: 5px;
+}
+
+/* experimental scrollbar styling */
 .slider.vertical {
-	background-color: @lithium-foreground;
+	background-color: shade(@lithium-background-monkai, 1.8);
 	border-radius: 5px;
+	border-width: 0px;
 }
 
 /* mouse hover */
@@ -52,5 +68,5 @@ GtkWindow {
 .slider.vertical:active {}
 
 .trough {
-	background-color: rgba(0,0,0,0);
+	background-color: shade(@lithium-background-monkai, 1.2);
 }
