@@ -12,6 +12,7 @@
 #include <gtkmm/scrolledwindow.h>
 
 #include <vector>
+#include <fstream>
 
 namespace lith {
 
@@ -65,7 +66,11 @@ namespace lith {
 			class textView : public Gtk::TextView {
 			public:
 				textView();
+				void from_file(std::basic_string<char>);
+				void save(std::basic_string<char>);
 				virtual ~textView();
+			protected:
+				std::basic_string<char> file_name; // file name
 			};
 
 			class commandPalette : public Gtk::Box {
@@ -96,7 +101,11 @@ namespace lith {
 				bool on_key_press(GdkEventKey *);
 				bool on_key_release(GdkEventKey *);
 				void on_open_click();
+
+				// command handlers
 				void on_open_str(std::basic_string<char>);
+				void on_save_str(std::basic_string<char>);
+
 				void on_quit_click();
 
 				// editor view

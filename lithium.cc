@@ -4,7 +4,9 @@
 #include <gtkmm/textview.h>
 #include <gtkmm/treestore.h>
 #include <gtkmm/entry.h>
+#include <glibmm.h>
 #include <iostream>
+#include <fstream>
 
 // window
 namespace lith {
@@ -76,6 +78,7 @@ namespace lith {
 				command = Gtk::manage(new commandPalette());
 				vbox->pack_start(*command, Gtk::PACK_SHRINK, 0);
 				command->register_func("open", sigc::mem_fun(*this, &window::on_open_str));
+				command->register_func("save", sigc::mem_fun(*this, &window::on_save_str));
 
 				// horizontal packing box
 				auto *hbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL, 0));
@@ -84,7 +87,6 @@ namespace lith {
 
 				// add treeview
 				fview = Gtk::manage(new treeView());
-				fview->show();
 				fview->set_size_request(200, 0);
 				hbox->pack_start(*fview, Gtk::PACK_SHRINK, 0);
 
@@ -110,7 +112,11 @@ namespace lith {
 			}
 
 			void window::on_open_str(std::basic_string<char> str) {
-				std::cout << "Hello, faggot: " << str << std::endl;
+				editor->from_file(str);
+			}
+
+			void window::on_save_str(std::basic_string<char> str) {
+				editor->save(str);
 			}
 
 			// do an action on a key press
@@ -158,6 +164,29 @@ namespace lith {
 				set_wrap_mode(Gtk::WrapMode::WRAP_WORD_CHAR);
 			}
 
+			void textView::from_file(std::basic_string<char> str) {
+				file_name = str;
+				std::ifstream file(str, std::ios::in | std::ios::binary | std::ios::ate);
+				if (file.is_open()) {
+					auto size = file.tellg();
+					auto memblock = new char [size];
+					file.seekg (0, std::ios::beg);
+					file.read(memblock, size);
+					get_buffer()->set_text(memblock); // Glib::convert_with_fallback(memblock, "UTF-8", "ISO-8859-1"));
+				}
+				file.close();
+			}
+
+			void textView::save(std::basic_string<char> str) {
+				auto txt = get_buffer()->get_text();
+				std::ofstream file(file_name);
+				if (file.is_open()) {
+					std::cout << txt.length() << txt.c_str() << file.write(txt.c_str(), txt.length()) << std::endl;
+					file.close();
+				}
+
+			}
+
 			textView::~textView() {}
 
 		}
@@ -202,8 +231,6 @@ namespace lith {
 				tree.append_column("files", columns.m_col_name);
 
 				tree.set_name("file_view");
-
-				show_all();
 			}
 
 			treeView::~treeView() {}
@@ -242,11 +269,14 @@ namespace lith {
 				// get command buffer
 				auto buf = command->get_buffer();
 				auto txt = buf->get_text();
+				int pos = txt.find(" ");
+				auto command = txt.substr(0, pos);
+				auto args = txt.substr(pos + 1);
 
 				for (auto it = commands.begin(); it != commands.end(); ++it) {
-					if (txt.compare((*it)->str) == 0) {
+					if (command.compare((*it)->str) == 0) {
 						std::cout << "got: "<< txt << " = " << (*it)->str << std::endl;
-						((*it)->func)("f u");
+						((*it)->func)(args);
 					}
 				}
 
