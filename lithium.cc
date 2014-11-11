@@ -77,8 +77,8 @@ namespace lith {
 				// command interface
 				command = Gtk::manage(new commandPalette());
 				vbox->pack_start(*command, Gtk::PACK_SHRINK, 0);
-				command->register_func("open", sigc::mem_fun(*this, &window::on_open_str));
-				command->register_func("save", sigc::mem_fun(*this, &window::on_save_str));
+				command->connect("open", sigc::mem_fun(*this, &window::on_open_str));
+				command->connect("save", sigc::mem_fun(*this, &window::on_save_str));
 
 				// horizontal packing box
 				auto *hbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL, 0));
