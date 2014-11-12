@@ -1,6 +1,6 @@
 
 CXX = clang++
-CXXFLAGS = `pkg-config gtkmm-3.0 --cflags --libs` --std=c++11
+CXXFLAGS = -fdiagnostics-color=auto -Wall `pkg-config gtkmm-3.0 --cflags --libs` --std=c++11
 
 OBJ = main.o lithium.o
 HDR = lithium.h

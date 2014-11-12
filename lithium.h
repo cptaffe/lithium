@@ -10,6 +10,8 @@
 #include <gtkmm/box.h>
 #include <gtkmm/entry.h>
 #include <gtkmm/scrolledwindow.h>
+#include <gtkmm/application.h>
+#include <glibmm.h>
 
 #include <vector>
 #include <fstream>
@@ -127,7 +129,7 @@ namespace lith {
 		Glib::RefPtr<Gtk::CssProvider> css; // app css styling
 
 		// window keeps track of its own tabs, files, sockets, etc.
-		ui::editor::window *window; // ui editor window reference
+		ui::editor::window window; // ui editor window reference
 	};
 }
 

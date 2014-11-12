@@ -4,7 +4,6 @@
 #include <gtkmm/textview.h>
 #include <gtkmm/treestore.h>
 #include <gtkmm/entry.h>
-#include <glibmm.h>
 #include <iostream>
 #include <fstream>
 
@@ -18,7 +17,7 @@ namespace lith {
 		load_style("style/lithium.css");
 	}
 
-	void load_style(std::basic_string<char> path) {
+	void lithium::load_style(std::basic_string<char> path) {
 		css = Gtk::CssProvider::get_default(); // get gtk default CssProvider
 		css->load_from_path(path);
 		auto screen = Gdk::Screen::get_default();
@@ -26,7 +25,7 @@ namespace lith {
 		ctx->add_provider_for_screen(screen, css, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 	}
 
-	int run() {
+	int lithium::run() {
 		return app->run(window);
 	}
 
