@@ -35,8 +35,6 @@ namespace lith {
 			window();
 			virtual ~window();
 			void load_style(std::basic_string<char>);
-		protected:
-			Glib::RefPtr<Gtk::CssProvider> css; // css styling
 		};
 
 		// namespace for editor specific classes.
@@ -94,7 +92,7 @@ namespace lith {
 
 			class window : public lith::ui::window {
 			public:
-				window(std::basic_string<char>);
+				window();
 				virtual ~window();
 			protected:
 				// Signal handlers
@@ -115,6 +113,22 @@ namespace lith {
 			};
 		}
 	}
+
+	// lithium application class
+	class lithium {
+	public:
+		lithium(int argc, char **argv);
+		void load_style(std::basic_string<char>);
+		int run();
+		virtual ~lithium();
+	protected:
+		Glib::RefPtr<Gtk::Application> app; // gtk application
+
+		Glib::RefPtr<Gtk::CssProvider> css; // app css styling
+
+		// window keeps track of its own tabs, files, sockets, etc.
+		ui::editor::window *window; // ui editor window reference
+	};
 }
 
 #endif // LITHIUM_LITHIUM_H_

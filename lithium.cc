@@ -8,20 +8,39 @@
 #include <iostream>
 #include <fstream>
 
+// lithium application
+namespace lith {
+
+	// application setup
+	lithium::lithium(int argc, char **argv) {
+		app = Gtk::Application::create(argc, argv, "org.byteflame.lithium");
+		lith::ui::editor::window window();
+		load_style("style/lithium.css");
+	}
+
+	void load_style(std::basic_string<char> path) {
+		css = Gtk::CssProvider::get_default(); // get gtk default CssProvider
+		css->load_from_path(path);
+		auto screen = Gdk::Screen::get_default();
+		auto ctx = Gtk::StyleContext::create();
+		ctx->add_provider_for_screen(screen, css, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	}
+
+	int run() {
+		return app->run(window);
+	}
+
+	lithium::~lithium() {
+
+	}
+}
+
 // window
 namespace lith {
 	namespace ui {
 
 		// creates a new button with label "Hello World".
 		window::window() {}
-
-		void window::load_style(std::basic_string<char> path) {
-			css = Gtk::CssProvider::get_default(); // get gtk default CssProvider
-			css->load_from_path(path);
-			auto screen = Gdk::Screen::get_default();
-			auto ctx = Gtk::StyleContext::create();
-			ctx->add_provider_for_screen(screen, css, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-		}
 
 		window::~window(){}
 	}
@@ -34,7 +53,7 @@ namespace lith {
 		namespace editor {
 
 			// creates a new button with label "Hello World".
-			window::window(std::basic_string<char> str) {
+			window::window() {
 
 				set_default_size(600, 800); // set window size
 				set_title("Lithium");
@@ -172,7 +191,7 @@ namespace lith {
 					auto memblock = new char [size];
 					file.seekg (0, std::ios::beg);
 					file.read(memblock, size);
-					get_buffer()->set_text(memblock); // Glib::convert_with_fallback(memblock, "UTF-8", "ISO-8859-1"));
+					get_buffer()->set_text(Glib::convert_with_fallback(memblock, "UTF-8", "ISO-8859-1"));
 				}
 				file.close();
 			}

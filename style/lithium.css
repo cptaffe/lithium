@@ -41,10 +41,6 @@ GtkWindow {
 	border: none;
 }
 
-#file_view > * {
-	box-shadow: none;
-}
-
 #editor_pane{
 	color: @lithium-foreground;
 	background-color: @lithium-background-monkai;
@@ -72,14 +68,14 @@ GtkWindow {
 }
 
 /* experimental scrollbar styling */
-.slider.vertical {
+.slider {
 	background-color: shade(@lithium-background-monkai, 1.8);
 	border-radius: 5px;
 	border-width: 0px;
 }
 
 /* mouse hover */
-.slider.vertical:hover {}
+.slider:hover {}
 
 /* when clicked */
 .slider.vertical:active {}
